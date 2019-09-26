@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <!-- 
+            1. Interpolation
+            2. v-bind (bind two attributes)
+            3. v-on (DOM 이벤트를 듣고 trigger될 때 자바스크립트 실행)
+            4. v-model (입력 유형에 따라 element를 업데이트)
+         -->
+        <input type="text" v-model="name">
+        <p>{{name}}</p>
+
+        <button v-on:click="counter++">Increase</button>
+        <button v-on:click="counter--">Decrease</button>
+        <button v-on:click="secondCounter++">Increase Second</button>
+    
+        <p>Counter: {{counter}} | {{secondCounter}}</p>
+        <p>Result: {{result()}} | {{output}}</p>
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: { // data is static. you cannot insert variable codes.
+                name: 'Max',
+                counter: 0,
+                secondCounter: 0,
+            },
+            computed: {
+                // Everything stored in the 'computed' can be used 
+                    // just like you use a property in the data object.
+
+                // Vue recognize this section, while not in 'methods'.
+                // << Caching the result >>
+                output: function(){
+                    console.log('Computed'); // it awares that 'secondCounter' is not related to itself.
+                    return this.counter > 5 ? 'Greater 5' : 'Smaller 5';
+                }
+            },
+
+            methods: {
+                // increase: function(){
+                //     this.counter++;
+                //     this.result = this.counter > 5 ? 'Greater 5' : 'Smaller 5';
+                // },
+
+                // decrease: function(){
+                //     this.counter--;
+                //     this.result = this.counter > 5 ? 'Greater 5' : 'Smaller 5';
+                // },
+
+                result: function(){
+                    // result를 data 대신 function으로 정의
+                    console.log('Method'); // it gets executed all the time (even unrelated secondCounter is called).
+                    return this.counter > 5 ? 'Greater 5' : 'Smaller 5';
+                },
+            }
+        })
+    </script>
+</body>
+</html>
