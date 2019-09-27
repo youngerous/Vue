@@ -29,6 +29,15 @@
     </div>
 
     <script>
+        /*
+            < Vue Instance >
+            el: Connect to DOM
+            data: Store data to be used
+            methods: Methods of this Vue instance
+            computed: Dependent properties
+            watch: Execute code upon data changes
+        */
+
         new Vue({
             el: '#app',
             data: { // data is static. you cannot insert variable codes.
@@ -46,6 +55,16 @@
                     console.log('Computed'); // it awares that 'secondCounter' is not related to itself.
                     return this.counter > 5 ? 'Greater 5' : 'Smaller 5';
                 }
+            },
+            watch: {
+                // computed가 가장 optimal하지만, there are cases you need to react with every change.
+                // Able to execute asynchronous tasks (computed는 완전히 synchronous).
+                counter: function(value){
+                    var vm = this;
+                    setTimeout(function(){
+                        vm.counter = 0;
+                    }, 2000);
+                } // not returning anything
             },
 
             methods: {
