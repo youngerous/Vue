@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <!-- v-if includes all nested elements -->
+        <p v-if="show">You can see me! <span>Hello!</span></p>
+        <!-- you can use 'v-else-if' in Vue.js ver 2.1 -->
+        <p v-else>Now you see me!</p>
+
+        <!-- template tag is not shown in DOM -->
+        <!-- nested로 묶이지 않는 요소들을 묶어서 v-if를 적용하고자 할 때 사용 -->
+        <!-- div 대신 사용 가능 -->
+        <template v-if="show">
+            <h1>Heading</h1>
+            <p>Inside a template</p>
+        </template>
+
+        <!-- v-if와 다르게 DOM에 표시된다. (v-if는 완전히 사라짐) -->
+        <p v-show="show">Do you also see me?</p>
+        <button @click="show = !show">Switch</button>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',  
+            data: {
+                show: true,
+            }
+
+            
+        })
+    </script>
+</body>
+</html>
