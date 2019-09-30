@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue</title>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+
+        <!-- nested loop -->
+        <ul>
+            <!-- 반복되는 DOM 내용이 단순한 경우나 의도적인 성능 향상을 위해 기본 동작에 의존하지 않는 경우를 제외하면,
+                가능하면 언제나 v-for에 key를 추가하는 것이 좋다. -->
+            <!-- key에 대한 이상적인 값은 각 항목을 식별할 수 있는 고유한 ID -->
+            <li v-for="(ingredient, idx) in ingredients" :key="ingredient">{{ingredient}} ({{idx}})</li>
+        </ul>
+        <button @click="ingredients.push('spices')">Add New</button>
+        <hr>
+
+        <!-- non-nested loop -->
+        <template v-for="(ingredient, idx) in ingredients">
+            <h1>{{ingredient}}</h1>
+            <p>{{idx}}</p>
+        </template>
+        <hr>
+
+        <!-- Object loop -->
+        <ul>
+            <li v-for="person in persons">
+                <div v-for="(value, key, idx) in person">{{key}}: {{value}} ({{idx}}) </div>
+            </li>
+        </ul>
+
+        <!-- loop a list of numbers -->
+        <span v-for="n in 10">{{n}} </span>
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',  
+            data: {
+                ingredients: ['meat', 'fruit', 'cookies'],
+                persons: [
+                    {name: 'Max', age: 27, color: 'red'},
+                    {name: 'Anna', age: 'unknown', color: 'blue'},
+                ]
+            } 
+        });
+    </script>
+</body>
+</html>
