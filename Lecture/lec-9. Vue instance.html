@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <div id="app1">
+        <!-- ref: Vue만 인식함. ref로 등록한 html element를 Vue에서 접근할 수 있다. -->
+        <h1 ref="heading">{{ title }}</h1>
+        <button v-on:click="show" ref="myButton">Show Paragraph</button>
+        <p v-if="showParagraph">This is not always visible</p>
+    </div>
+        
+    <div id="app2">
+        <h1>{{ title }}</h1>
+        <button @click="onChange">Change something in Vue 1</button>
+        <hello></hello>
+        <hello></hello>
+    </div>
+        
+    <div id="app3">
+        
+    </div>
+              
+
+    <script>
+        var data = {
+            title: 'The VueJS Instance',
+            showParagraph: false
+        }
+
+        // reusable component
+        Vue.component('hello', {
+            template: '<h1>Hello</h1>',
+        });
+
+        ///////////////////////////////////
+        var vm1 = new Vue({
+            data: data,
+            methods: {
+                show: function() {
+                    this.showParagraph = true;
+                    this.updateTitle('The VueJS Instance (Updated)');
+                    // 등록한 ref에 접근할 수 있다.
+                    this.$refs.myButton.innerText = 'Test';
+                },
+                updateTitle: function(title) {
+                    this.title = title;
+                }
+            },
+            computed: {
+                lowercaseTitle: function() {
+                    return this.title.toLowerCase();
+                }
+            },
+            watch: {
+                title: function(value) {
+                alert('Title changed, new value: ' + value);
+                }
+            }
+        });
+
+        // if you know where to mount, use the 'el' property.
+        // but you don't know yet, use 'mount'.
+        vm1.$mount('#app1');    
+
+        console.log(vm1.$data === data);
+        // 이런 식으로 변경하면 DOM에 바로 overwritten된다.
+        vm1.$refs.heading.innerText = 'Something else';
+
+        setTimeout(function() {
+            vm1.title = 'Changed by Timer';
+            vm1.show();
+        }, 3000);
+
+        ///////////////////////////////////
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {
+                title: 'The second Instance'
+            },
+            methods: {
+                onChange: function() {
+                    vm1.title = 'Changed!';
+                }
+            }
+        });
+
+        ///////////////////////////////////
+        var vm3 = new Vue({
+            template: '<h1>Hello!</h1>'
+        });
+
+        vm3.$mount();
+        document.getElementById('app3').appendChild(vm3.$el);
+
+    </script>
+</body>
+</html>
